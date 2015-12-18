@@ -91,48 +91,11 @@ final class VersionHelper
     Version calculateVersion()
     {
         final Version response = new Version();
+        response.release = mojo.getRelease();
+        response.version = mojo.getVersion().replaceAll("-",".");
 
-        final String version = mojo.getVersion();
-        final String release = mojo.getRelease();
-
-        // this will get overwritten if we calculate a "release" value
-        response.release = release;
-
-        int modifierIndex = version.indexOf( '-' );
-        if ( modifierIndex == -1 )
-        {
-            response.version = version;
-
-            if ( release == null || release.length() == 0 )
-            {
-                response.release = "1";
-            }
-        }
-        else
-        {
-            response.version = version.substring( 0, modifierIndex );
-            mojo.getLog().warn( "rpm version string truncated to " + response.version );
-
-            if ( release == null || release.length() == 0 )
-            {
-                String modifier = version.substring( modifierIndex + 1, version.length() );
-
-                modifier = modifier.replace( '-', '_' );
-
-                if ( modifier.endsWith( "SNAPSHOT" ) )
-                {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat( "yyyyMMddHHmmss" );
-                    simpleDateFormat.setTimeZone( TimeZone.getTimeZone( "UTC" ) );
-                    modifier += simpleDateFormat.format( mojo.getBuildTimestamp() );
-                }
-                else
-                {
-                    modifier += "_1";
-                }
-
-                response.release = modifier;
-            }
-        }
+        if( response.release == null || response.release.trim().length() == 0)
+            response.release = "1";
 
         return response;
     }
