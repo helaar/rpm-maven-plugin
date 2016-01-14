@@ -22,6 +22,7 @@ package org.codehaus.mojo.rpm;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -85,8 +86,12 @@ final class SpecWriter
         writeNonNullDirective( "Group", mojo.getGroup() );
         writeNonNullDirective( "Packager", mojo.getPackager() );
 
+
         writeList( mojo.getProvides(), "Provides: " );
-        writeList( mojo.getRequires(), "Requires: " );
+
+        ArrayList<String> requires = new ArrayList<String>();
+        for (String s : mojo.getRequires()) requires.add(s.replaceAll("-SNAPSHOT", ".SNAPSHOT"));
+        writeList( requires, "Requires: " );
         writeList( mojo.getPrereqs(), "PreReq: " );
         writeList( mojo.getObsoletes(), "Obsoletes: " );
         writeList( mojo.getConflicts(), "Conflicts: " );
