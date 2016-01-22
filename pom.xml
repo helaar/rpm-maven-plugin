@@ -16,7 +16,7 @@
   </parent>
 
   <artifactId>rpm-maven-plugin</artifactId>
-  <version>2.1.4.helaar</version>
+  <version>2.1.4.helaar.1</version>
   <packaging>maven-plugin</packaging>
 
   <name>RPM Maven Plugin</name>

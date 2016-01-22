@@ -91,11 +91,41 @@ final class VersionHelper
     Version calculateVersion()
     {
         final Version response = new Version();
-        response.release = mojo.getRelease();
-        response.version = mojo.getVersion().replaceAll("-",".");
 
-        if( response.release == null || response.release.trim().length() == 0)
-            response.release = "1";
+        final String version = mojo.getVersion();
+        final String release = mojo.getRelease();
+
+        // this will get overwritten if we calculate a "release" value
+        response.release = release;
+
+        int modifierIndex = version.indexOf( '-' );
+        if ( modifierIndex == -1 )
+        {
+            response.version = version;
+
+            if ( release == null || release.length() == 0 )
+            {
+                response.release = "1";
+            }
+        }
+        else
+        {
+            response.version = version.substring( 0, modifierIndex );
+            mojo.getLog().warn( "rpm version string truncated to " + response.version );
+            String modifier = version.substring( modifierIndex + 1, version.length() );
+            modifier = modifier.replace( '-', '_' );
+
+            if( modifier.endsWith("."))
+                modifier+="0";
+
+            if ( release == null || release.length() == 0 )
+            {
+
+                response.release = modifier;
+            }
+            else
+                response.release = release +"."+ modifier;
+        }
 
         return response;
     }
