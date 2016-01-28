@@ -90,7 +90,7 @@ final class SpecWriter
         writeList( mojo.getProvides(), "Provides: " );
 
         ArrayList<String> requires = new ArrayList<String>();
-        for (String s : mojo.getRequires()) requires.add(s.replaceAll("-SNAPSHOT", ".SNAPSHOT"));
+        for (String s : mojo.getRequires()) requires.add(transformSnapshot(s));
         writeList( requires, "Requires: " );
         writeList( mojo.getPrereqs(), "PreReq: " );
         writeList( mojo.getObsoletes(), "Obsoletes: " );
@@ -150,6 +150,15 @@ final class SpecWriter
             spec.println( "%changelog" );
             spec.println( mojo.getChangelog() );
         }
+    }
+
+    private String transformSnapshot(String s) {
+
+        if( s.contains("-SNAPSHOT")) {
+            return s.replace("-SNAPSHOT","")+".SNAPSHOT";
+        }
+        else
+            return s;
     }
 
     /**
