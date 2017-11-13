@@ -117,7 +117,18 @@
         <dependency>
             <groupId>org.apache.maven.wagon</groupId>
             <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>2.12</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
             <version>3.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-interactivity-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -137,6 +148,10 @@
                 <exclusion>
                     <groupId>org.apache.maven.wagon</groupId>
                     <artifactId>wagon-webdav-jackrabbit</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.maven.wagon</groupId>
+                    <artifactId>wagon-ssh</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -165,6 +180,11 @@
             <artifactId>plexus-archiver</artifactId>
             <version>2.9.1</version>
         </dependency>
+                <dependency>
+            <groupId>org.sonatype.plexus</groupId>
+            <artifactId>plexus-sec-dispatcher</artifactId>
+            <version>1.4</version>
+        </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
@@ -176,11 +196,7 @@
             <!-- annotations are not needed for plugin execution so you can remove this dependency for execution with using provided scope -->
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.sonatype.plexus</groupId>
-            <artifactId>plexus-sec-dispatcher</artifactId>
-            <version>1.4</version>
-        </dependency>
+
     </dependencies>
 
     <build>
